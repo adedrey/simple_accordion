@@ -63,6 +63,8 @@ class _AccordionItem extends State<AccordionItem> {
     return widget.child ??
         ListTile(
           tileColor: widget.itemColor,
+          dense: true,
+          contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
           title: Text(
             widget.title!,
             style: widget.itemTextStyle ??
