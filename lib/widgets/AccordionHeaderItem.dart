@@ -81,7 +81,7 @@ class _AccordionHeaderItem extends State<AccordionHeaderItem> {
                         color: widget.borderColor ?? const Color(0xffe6e6e6)),
                   )
                 : null,
-            color: widget.headerColor),
+            color: isOpen ? widget.headerColor : null),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
