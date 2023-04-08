@@ -16,12 +16,14 @@ class AccordionItem extends StatefulWidget {
       this.checkColor,
       this.itemColor,
       this.itemTextStyle,
+      this.itemPadding,
       this.accrodionItemType = AccrodionItemType.Label})
       : assert(title != null || child != null),
         super(key: key);
   final String? id;
   final String? title;
   final Widget? child;
+  final EdgeInsets? itemPadding;
 
   /// if you're using title instead of child in AccordionItem
   TextStyle? itemTextStyle;
@@ -60,65 +62,69 @@ class _AccordionItem extends State<AccordionItem> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child ??
-        ListTile(
-          tileColor: widget.itemColor,
-          dense: true,
-          contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
-          title: Text(
-            widget.title!,
-            style: widget.itemTextStyle ??
-                TextStyle(
-                    color: Theme.of(context).textTheme.headline1?.color,
-                    fontSize: 13),
-          ),
-          trailing: widget.accrodionItemType == AccrodionItemType.CheckBox
-              ? AnimatedCrossFade(
-                  crossFadeState: checked
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
-                  duration: const Duration(milliseconds: 50),
-                  firstChild: Icon(
-                    Icons.check,
-                    color: widget.checkColor,
-                  ),
-                  secondChild: const SizedBox(
-                    width: 20,
-                    height: 20,
-                  ),
-                )
-              : const SizedBox(),
-          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-          onTap: widget.onTap ??
-              () {
-                if (widget.accrodionItemType == AccrodionItemType.CheckBox) {
-                  SimpleAccordionState state =
-                      SimpleAccordionState.of(context)!;
-                  if (state.selectedItems.length >=
-                          (state.maxSelectedCount ?? 1000) &&
-                      !checked) {
-                    return;
-                  }
-                  setState(() {
-                    checked = !checked;
-                  });
-                  if (checked) {
-                    state.selectedItems
-                        .add(AccordionData(id: widget.id, title: widget.title));
-                  } else {
-                    state.selectedItems
-                        .removeWhere((a) => a.title == widget.title);
-                  }
+    return Container(
+      color: widget.itemColor,
+      padding: widget.itemPadding,
+      child: widget.child ??
+          ListTile(
+            // tileColor: widget.itemColor,
+            dense: true,
+            contentPadding: const EdgeInsets.only(left: 0.0, right: 0.0),
+            title: Text(
+              widget.title!,
+              style: widget.itemTextStyle ??
+                  TextStyle(
+                      color: Theme.of(context).textTheme.headline1?.color,
+                      fontSize: 13),
+            ),
+            trailing: widget.accrodionItemType == AccrodionItemType.CheckBox
+                ? AnimatedCrossFade(
+                    crossFadeState: checked
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    duration: const Duration(milliseconds: 50),
+                    firstChild: Icon(
+                      Icons.check,
+                      color: widget.checkColor,
+                    ),
+                    secondChild: const SizedBox(
+                      width: 20,
+                      height: 20,
+                    ),
+                  )
+                : const SizedBox(),
+            visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+            onTap: widget.onTap ??
+                () {
+                  if (widget.accrodionItemType == AccrodionItemType.CheckBox) {
+                    SimpleAccordionState state =
+                        SimpleAccordionState.of(context)!;
+                    if (state.selectedItems.length >=
+                            (state.maxSelectedCount ?? 1000) &&
+                        !checked) {
+                      return;
+                    }
+                    setState(() {
+                      checked = !checked;
+                    });
+                    if (checked) {
+                      state.selectedItems.add(
+                          AccordionData(id: widget.id, title: widget.title));
+                    } else {
+                      state.selectedItems
+                          .removeWhere((a) => a.title == widget.title);
+                    }
 
-                  if (state.onSelectedChanged != null) {
-                    state.onSelectedChanged!(state.selectedItems);
+                    if (state.onSelectedChanged != null) {
+                      state.onSelectedChanged!(state.selectedItems);
+                    }
+                    if (widget.onChange != null) {
+                      widget.onChange!(checked,
+                          AccordionData(id: widget.id, title: widget.title));
+                    }
                   }
-                  if (widget.onChange != null) {
-                    widget.onChange!(checked,
-                        AccordionData(id: widget.id, title: widget.title));
-                  }
-                }
-              },
-        );
+                },
+          ),
+    );
   }
 }

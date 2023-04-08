@@ -16,6 +16,7 @@ class AccordionHeaderItem extends StatefulWidget {
       this.iconSize,
       this.iconColor,
       this.showBorder = true,
+      this.headerPadding,
       this.borderColor,
       this.itemColor})
       : assert(title != null || child != null),
@@ -30,6 +31,7 @@ class AccordionHeaderItem extends StatefulWidget {
   final Color? iconColor;
   final bool showBorder;
   final Color? borderColor;
+  final EdgeInsets? headerPadding;
 
   /// set the color of header
   Color? headerColor;
@@ -69,7 +71,8 @@ class _AccordionHeaderItem extends State<AccordionHeaderItem> {
         });
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: widget.headerPadding ??
+            const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         decoration: BoxDecoration(
             border: widget.showBorder
                 ? Border(
