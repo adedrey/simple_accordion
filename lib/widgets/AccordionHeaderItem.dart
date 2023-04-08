@@ -69,7 +69,7 @@ class _AccordionHeaderItem extends State<AccordionHeaderItem> {
         });
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
             border: widget.showBorder
                 ? Border(

@@ -86,7 +86,7 @@ class _AccordionItem extends State<AccordionItem> {
                   ),
                 )
               : const SizedBox(),
-          visualDensity: VisualDensity.compact,
+          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
           onTap: widget.onTap ??
               () {
                 if (widget.accrodionItemType == AccrodionItemType.CheckBox) {
