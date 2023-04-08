@@ -13,6 +13,10 @@ class AccordionHeaderItem extends StatefulWidget {
       this.index = 0,
       this.headerTextStyle,
       this.itemTextStyle,
+      this.iconSize,
+      this.iconColor,
+      this.showBorder = true,
+      this.borderColor,
       this.itemColor})
       : assert(title != null || child != null),
         super(key: key);
@@ -22,6 +26,10 @@ class AccordionHeaderItem extends StatefulWidget {
   final String? title;
   final Widget? child;
   final List<AccordionItem> children;
+  final double? iconSize;
+  final Color? iconColor;
+  final bool showBorder;
+  final Color? borderColor;
 
   /// set the color of header
   Color? headerColor;
@@ -63,9 +71,13 @@ class _AccordionHeaderItem extends State<AccordionHeaderItem> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         decoration: BoxDecoration(
-            border: const Border(
-              bottom: BorderSide(width: 1, color: Color(0xffe6e6e6)),
-            ),
+            border: widget.showBorder
+                ? Border(
+                    bottom: BorderSide(
+                        width: 1,
+                        color: widget.borderColor ?? const Color(0xffe6e6e6)),
+                  )
+                : null,
             color: widget.headerColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +91,8 @@ class _AccordionHeaderItem extends State<AccordionHeaderItem> {
               isOpen
                   ? Icons.keyboard_arrow_up_outlined
                   : Icons.keyboard_arrow_down_outlined,
-              color: const Color(0xffd4d4d4),
+              size: widget.iconSize,
+              color: widget.iconColor ?? const Color(0xffd4d4d4),
             )
           ],
         ),
